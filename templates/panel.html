@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="sidebar">
+    <h2>{{ session['role'].capitalize() }} Panel</h2>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<div class="content">
+    <h1>Dashboard</h1>
+
+    <canvas id="chart"></canvas>
+
+    <h2>All Users</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Action</th>
+        </tr>
+
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>
+                {{ user.username }}
+                {% if user.id == session['user_id'] %}
+                    <span style="font-size:12px;color:#4f7cff;">(You)</span>
+                {% endif %}
+            </td>
+
+            <!-- ROLE COLUMN -->
+            <td>
+                {% if session['role'] == 'admin' and user.id != session['user_id'] %}
+                    <form method="POST" action="{{ url_for('update_role', user_id=user.id) }}">
+                        <select name="role" onchange="this.form.submit()">
+                            <option value="admin" {% if user.role=='admin' %}selected{% endif %}>Admin</option>
+                            <option value="manager" {% if user.role=='manager' %}selected{% endif %}>Manager</option>
+                            <option value="user" {% if user.role=='user' %}selected{% endif %}>User</option>
+                        </select>
+                    </form>
+                {% else %}
+                    {{ user.role }}
+                {% endif %}
+            </td>
+
+            <!-- ACTION COLUMN -->
+            <td>
+                {% if session['role'] == 'admin' and user.id != session['user_id'] %}
+                    <button onclick="confirmDelete({{ user.id }})">Delete</button>
+                {% else %}
+                    <button onclick="notAuthorized()" style="opacity:0.5;">
+                        Modify
+                    </button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- DELETE MODAL -->
+<div id="modal" class="modal">
+    <div class="modal-content glass">
+        <p>Are you sure you want to delete this user?</p>
+        <form id="deleteForm" method="POST">
+            <button type="submit">Yes Delete</button>
+            <button type="button" onclick="closeModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<!-- NOT AUTHORIZED MODAL -->
+<div id="authModal" class="modal">
+    <div class="modal-content glass">
+        <h3>Access Denied</h3>
+        <p>You are not authorized to modify user data.</p>
+        <button onclick="closeAuth()">Close</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+function confirmDelete(userId) {
+    document.getElementById("modal").style.display = "flex";
+    document.getElementById("deleteForm").action =
+        "{{ url_for('delete_user', user_id=0) }}".replace("0", userId);
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+function notAuthorized() {
+    document.getElementById("authModal").style.display = "flex";
+}
+
+function closeAuth() {
+    document.getElementById("authModal").style.display = "none";
+}
+
+new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: {
+        labels: ['Admin','Manager','User'],
+        datasets: [{
+            label: 'User Distribution',
+            data: [{{ admin_count }}, {{ manager_count }}, {{ user_count }}],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        animation: { duration: 1500 },
+        plugins: { legend: { display: false } }
+    }
+});
+</script>
+
+{% endblock %}

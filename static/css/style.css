@@ -1,0 +1,256 @@
+/* =====================================
+   GLOBAL RESET
+===================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #eef2f7, #ffffff);
+    transition: background 0.4s ease, color 0.4s ease;
+    color: #333;
+}
+
+/* =====================================
+   PAGE FADE ANIMATION
+===================================== */
+.page {
+    animation: fadePage 0.5s ease;
+}
+
+@keyframes fadePage {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================================
+   LIQUID GLASS CARD
+===================================== */
+.glass {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 20px;
+    padding: 40px;
+    width: 380px;
+    margin: 100px auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.glass:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* =====================================
+   INPUT FIELDS
+===================================== */
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.85);
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #5b8cff;
+    box-shadow: 0 0 0 3px rgba(91,140,255,0.15);
+}
+
+/* =====================================
+   BUTTONS
+===================================== */
+button {
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: none;
+    background: #4f7cff;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #3f6ae0;
+    transform: translateY(-2px);
+}
+
+/* =====================================
+   SIDEBAR
+===================================== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 230px;
+    height: 100%;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(15px);
+    padding-top: 40px;
+    box-shadow: 4px 0 25px rgba(0,0,0,0.05);
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 14px 22px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.sidebar a:hover {
+    background: rgba(91,140,255,0.12);
+    padding-left: 30px;
+}
+
+/* =====================================
+   CONTENT AREA
+===================================== */
+.content {
+    margin-left: 250px;
+    padding: 40px;
+}
+
+/* =====================================
+   TABLE STYLING
+===================================== */
+table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 14px;
+    text-align: left;
+}
+
+th {
+    background: rgba(0,0,0,0.04);
+    font-weight: 600;
+}
+
+tr {
+    transition: background 0.3s ease;
+}
+
+tr:hover {
+    background: rgba(91,140,255,0.08);
+}
+
+/* =====================================
+   FLASH ALERT
+===================================== */
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(79,124,255,0.95);
+    color: white;
+    padding: 14px 22px;
+    border-radius: 10px;
+    animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(80px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* =====================================
+   MODAL
+===================================== */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 15px;
+    animation: fadePage 0.3s ease;
+}
+
+/* =====================================
+   THEME TOGGLE BUTTON (TOP RIGHT)
+===================================== */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* =====================================
+   DARK MODE
+===================================== */
+body.dark {
+    background: linear-gradient(135deg, #1c1c1c, #121212);
+    color: #f5f5f5;
+}
+
+body.dark .glass,
+body.dark table,
+body.dark .sidebar,
+body.dark .modal-content {
+    background: rgba(40,40,40,0.65);
+    color: #f5f5f5;
+}
+
+body.dark input,
+body.dark select {
+    background: rgba(60,60,60,0.7);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+body.dark .sidebar a {
+    color: #ddd;
+}
+
+body.dark .sidebar a:hover {
+    background: rgba(91,140,255,0.2);
+}
+
+body.dark .theme-toggle {
+    background: rgba(50,50,50,0.8);
+    color: white;
+}

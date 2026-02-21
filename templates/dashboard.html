@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="glass">
+    <h2>User Dashboard</h2>
+    <p>Welcome User 🚀</p>
+    <a href="{{ url_for('logout') }}">
+        <button>Logout</button>
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="sidebar">
+    <h2>Manager</h2>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<div class="content">
+    <h1>Manager Dashboard</h1>
+    <p>Welcome Manager 👑 (View Only Access)</p>
+
+    <h2>All Users</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Action</th>
+        </tr>
+
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                <button onclick="notAuthorized()">Modify</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- NOT AUTHORIZED MODAL -->
+<div id="authModal" class="modal">
+    <div class="modal-content glass">
+        <h3>Access Denied</h3>
+        <p>You are not authorized to modify user data.</p>
+        <button onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<script>
+function notAuthorized() {
+    document.getElementById("authModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("authModal").style.display = "none";
+}
+</script>
+
+{% endblock %}
